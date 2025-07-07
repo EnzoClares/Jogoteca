@@ -4,7 +4,10 @@ app = Flask(__name__) ##Referência ao próprio arquivo(garante com que o códig
 
 @app.route('/inicio')
 def ola():
-  return render_template("lista.html")
+
+  jogos = ["Mario", "FIFA", "PES", "ZELDA"]
+
+  return render_template("lista.html", titulo = "Jogos", jogos=jogos)
 
 app.run() ##Roda a aplicação
 
