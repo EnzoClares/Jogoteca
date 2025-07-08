@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect 
 
 ##request captura a informação que mandada pelo forms do novo.html
 
@@ -18,11 +18,6 @@ app = Flask(__name__) ##Referência ao próprio arquivo(garante com que o códig
 
 @app.route('/')
 def index():
-  jogo1 = jogos('Tetris', 'Arcade', 'Atari')
-  jogo2 = jogos('FIFA', 'Esportes', 'XBOX/PS5/PC')
-  jogo3 = jogos('Zelda', 'Aventura', 'Nintendo SWITCH')
-
-  lista = [jogo1, jogo2, jogo3]
 
   return render_template('lista.html', titulo = 'Jogos', jogos=lista)
 
@@ -37,7 +32,7 @@ def criar():
   console = request.form['console']
   jogo = jogos(nome, categoria, console)
   lista.append(jogo)
-  return render_template('lista.html', titulo = 'Jogos', jogos = lista) 
+  return redirect ('/') ##redirecionar para a página inicial
 
 app.run(debug=True) ##Roda a aplicação
 
