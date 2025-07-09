@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, redirect 
+from flask import Flask, render_template, request, redirect, session, flash
 
 ##request captura a informação que mandada pelo forms do novo.html
+##session guarda informações
+##flash permite a adição de mensagens curtas na interface  
 
 class jogos:
   def __init__(self, nome, categoria, console):
@@ -15,6 +17,7 @@ jogo3 = jogos('Zelda', 'Aventura', 'Nintendo SWITCH')
 lista = [jogo1, jogo2, jogo3]
 
 app = Flask(__name__) ##Referência ao próprio arquivo(garante com que o código rode)
+app.secret_key = 'alura' ##chave secreta para evitar erro no login
 
 @app.route('/')
 def index():
@@ -41,9 +44,13 @@ def login():
 @app.route('/autenticar', methods = ['POST',])
 def autenticar():
   if "1234" == request.form['senha']:
-    return redirect('/novo')
+    session['usuario_logado'] = request.form['usuario']
+    flash(session['usuario_logado'] + ' logado com sucesso')
+    return redirect('/')
   else:
+    flash('Falha no login')
     return redirect('/login')
+
 
 app.run(debug=True) ##Roda a aplicação
 
