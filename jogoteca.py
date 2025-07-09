@@ -34,5 +34,16 @@ def criar():
   lista.append(jogo)
   return redirect ('/') ##redirecionar para a página inicial
 
+@app.route('/login')
+def login():
+  return render_template('login.html')
+
+@app.route('/autenticar', methods = ['POST',])
+def autenticar():
+  if "1234" == request.form['senha']:
+    return redirect('/novo')
+  else:
+    return redirect('/login')
+
 app.run(debug=True) ##Roda a aplicação
 
