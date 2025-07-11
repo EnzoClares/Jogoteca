@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, flash, url_for
 
 ##request captura a informação que mandada pelo forms do novo.html
 ##session guarda informações
-##flash permite a adição de mensagens curtas na interface  
+##flash permite a adição de mensagens curtas na interface
+##url_for dinamização de urls  
 
 class jogos:
   def __init__(self, nome, categoria, console):
@@ -27,7 +28,7 @@ def index():
 @app.route('/novo')
 def novo():
   if 'usuario_logado' not in session or session['usuario_logado'] == None:
-    return redirect('/login?proximas=novo')
+    return redirect(url_for('login', proxima = url_for('novo')))
   ##querystring -> parte da URL para parâmetros e valores para o servidor
   return render_template('novo.html', titulo = 'Novo Jogo')
 
@@ -38,11 +39,11 @@ def criar():
   console = request.form['console']
   jogo = jogos(nome, categoria, console)
   lista.append(jogo)
-  return redirect ('/') ##redirecionar para a página inicial
+  return redirect (url_for('index')) ##redirecionar para a página inicial
 
 @app.route('/login')
 def login():
-  proxima = request.args.get("proximas")
+  proxima = request.args.get("proxima")
   return render_template('login.html', proximas = proxima)
 
 @app.route('/autenticar', methods = ['POST',])
@@ -51,16 +52,16 @@ def autenticar():
     session['usuario_logado'] = request.form['usuario']
     flash(session['usuario_logado'] + ' logado com sucesso')
     proxima_pag = request.form['proxima']
-    return redirect('/{}'.format(proxima_pag))
+    return redirect(proxima_pag)
   else:
     flash('Falha no login')
-    return redirect('/login')
+    return redirect(url_for('login'))
   
 @app.route('/logout')
 def logout():
   session['usuario_logado'] = None
   flash('Logout realizado com sucesso')
-  return redirect('/')
+  return redirect(url_for('index'))
 
 
 app.run(debug=True) ##Roda a aplicação
