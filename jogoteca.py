@@ -27,7 +27,8 @@ def index():
 @app.route('/novo')
 def novo():
   if 'usuario_logado' not in session or session['usuario_logado'] == None:
-    return redirect('/login')
+    return redirect('/login?proximas=novo')
+  ##querystring -> parte da URL para parâmetros e valores para o servidor
   return render_template('novo.html', titulo = 'Novo Jogo')
 
 @app.route('/criar', methods=['POST',]) ##é preciso avisar para o flask que usaremos o method post
@@ -41,14 +42,16 @@ def criar():
 
 @app.route('/login')
 def login():
-  return render_template('login.html')
+  proxima = request.args.get("proximas")
+  return render_template('login.html', proximas = proxima)
 
 @app.route('/autenticar', methods = ['POST',])
 def autenticar():
   if "1234" == request.form['senha']:
     session['usuario_logado'] = request.form['usuario']
     flash(session['usuario_logado'] + ' logado com sucesso')
-    return redirect('/')
+    proxima_pag = request.form['proxima']
+    return redirect('/{}'.format(proxima_pag))
   else:
     flash('Falha no login')
     return redirect('/login')
