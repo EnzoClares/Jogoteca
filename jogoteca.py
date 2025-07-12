@@ -11,7 +11,22 @@ class jogos:
     self.categoria = categoria
     self.console = console
 
-jogo1 = jogos('Tetris', 'Arcade', 'Atari')
+class usuario:
+  def __init__(self, nome, nickname, senha):
+    self.nome = nome
+    self.nickname = nickname
+    self.senha = senha
+
+usuario1 = usuario("Pedro Aiko", "aikola", "vascodagama")
+usuario2 = usuario("Enzo Marques", "Enzo", "Deusebom")
+usuario3 = usuario("Gabriel Gomes", "Biel", "vaicorinthians")
+
+usuarios = {usuario1.nickname : usuario1,
+          usuario2.nickname : usuario2,
+          usuario3.nickname : usuario3
+}
+
+jogo1 = jogos('Tetrs', 'Arcade', 'Atari')
 jogo2 = jogos('FIFA', 'Esportes', 'XBOX/PS5/PC')
 jogo3 = jogos('Zelda', 'Aventura', 'Nintendo SWITCH')
 
@@ -48,6 +63,19 @@ def login():
 
 @app.route('/autenticar', methods = ['POST',])
 def autenticar():
+  if request.form['usuario'] in usuarios:
+    usuario = usuarios[request.form['usuario']]
+    if request.form['senha'] == usuario.senha:
+      session['usuario_logado'] = usuario.nickname
+      flash(usuario.nickname + ' logado com sucesso')
+      proxima_pag = request.form['proxima']
+      return redirect(proxima_pag)
+  else:
+    flash('Falha no login')
+    return redirect(url_for('login'))
+
+
+
   if "1234" == request.form['senha']:
     session['usuario_logado'] = request.form['usuario']
     flash(session['usuario_logado'] + ' logado com sucesso')
