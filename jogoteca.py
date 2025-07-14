@@ -11,6 +11,12 @@ class jogos:
     self.categoria = categoria
     self.console = console
 
+jogo1 = jogos('Tetrs', 'Arcade', 'Atari')
+jogo2 = jogos('FIFA', 'Esportes', 'XBOX/PS5/PC')
+jogo3 = jogos('Zelda', 'Aventura', 'Nintendo SWITCH')
+
+lista = [jogo1, jogo2, jogo3]
+
 class usuario:
   def __init__(self, nome, nickname, senha):
     self.nome = nome
@@ -25,12 +31,6 @@ usuarios = {usuario1.nickname : usuario1,
           usuario2.nickname : usuario2,
           usuario3.nickname : usuario3
 }
-
-jogo1 = jogos('Tetrs', 'Arcade', 'Atari')
-jogo2 = jogos('FIFA', 'Esportes', 'XBOX/PS5/PC')
-jogo3 = jogos('Zelda', 'Aventura', 'Nintendo SWITCH')
-
-lista = [jogo1, jogo2, jogo3]
 
 app = Flask(__name__) ##Referência ao próprio arquivo(garante com que o código rode)
 app.secret_key = 'alura' ##chave secreta para evitar erro no login
