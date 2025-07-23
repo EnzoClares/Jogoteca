@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, session, flash, url_for
-
+from flask_sqlalchemy import SQLAlchemy
 ##request captura a informação que mandada pelo forms do novo.html
 ##session guarda informações
 ##flash permite a adição de mensagens curtas na interface
 ##url_for dinamização de urls  
+##conexão entre banco de dados MySQL junto ao flask
 
 class jogos:
   def __init__(self, nome, categoria, console):
@@ -34,6 +35,14 @@ usuarios = {usuario1.nickname : usuario1,
 
 app = Flask(__name__) ##Referência ao próprio arquivo(garante com que o código rode)
 app.secret_key = 'alura' ##chave secreta para evitar erro no login
+
+db = SQLAlchemy(app) #instanciando o banco de dados alchemy 
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+  '{SGBD}://{usuario}:{senha}@{servidor}/{database}'.format(
+    SGBD = 'mysql + mysql.connector',
+    usuario = 'root',
+    senha = '******'
+  )
 
 @app.route('/')
 def index():

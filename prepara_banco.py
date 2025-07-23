@@ -1,15 +1,18 @@
 import mysql.connector
 from mysql.connector import errorcode
 
+
+
+
 print('Conectando...')
 try: 
-      conn = mysql.connector.connect(
+      conn= mysql.connector.connect(
             host='127.0.0.1',
             user='root',
-            password= 'admin'
+            password='*******'
       )
 except mysql.connector.Error as err:
-      if err.errno == errorcode.ER_ACESS_DENIED_ERROR:
+      if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print('Existe algo de errado no de usuário ou senha')
       else:
             print(err)
@@ -21,22 +24,22 @@ cursor.execute("USE `jogoteca`;")
 
 #criando tabelas
 TABLES = {}
-TABLES['Jogos'] = ('''
-  CRETATE TABLE `jogos` (
-  `id` int (11) NOT NULL AUTO_INCREMENT,
+TABLES['jogos'] = ('''
+  CREATE TABLE `jogos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL, 
   `categoria` varchar(40) NOT NULL, 
   `console` varchar(20) NOT NULL,
   PRIMARY KEY(`id`)
-  ) ENGINE = InnoDB DEFAULT CHARTSET = utf8 COLLATE = utf8_bin;''')
+  ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_bin;''')
 
-TABLES['Usuarios'] = ('''
-  CRETATE TABLE `usuarios` (
+TABLES['usuarios'] = ('''
+  CREATE TABLE `usuarios` (
   `nome` varchar(20) NOT NULL, 
   `nickname` varchar(8) NOT NULL, 
   `senha` varchar(100) NOT NULL,
   PRIMARY KEY(`nickname`)
-  ) ENGINE = InnoDB DEFAULT CHARTSET = utf8 COLLATE = utf8_bin;''')
+  ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_bin;''')
 
 for tabela_nome in TABLES:
       table_sql = TABLES[tabela_nome]
